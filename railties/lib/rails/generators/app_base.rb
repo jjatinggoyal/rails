@@ -736,6 +736,7 @@ module Rails
 
         template "kamal-secrets.tt", ".kamal/secrets", force: true
         template "config/deploy.yml", force: true
+        template database.init_template, "db/init.sql" unless database.init_template.nil?
       end
 
       def run_solid
