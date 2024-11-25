@@ -44,6 +44,10 @@ module Rails
         def host
           "127.0.0.1"
         end
+
+        def init_template
+          "mysql-init.sql.tt"
+        end
       end
 
       module MariaDB
@@ -137,6 +141,10 @@ module Rails
         return unless service
 
         "#{name}-data"
+      end
+
+      def init_template
+        nil
       end
 
       class MySQL2 < Database
@@ -281,6 +289,7 @@ module Rails
         def base_package; end
         def build_package; end
         def feature_name; end
+        def init_template; end
       end
     end
   end
