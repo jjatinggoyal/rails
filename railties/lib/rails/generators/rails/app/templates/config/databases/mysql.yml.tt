@@ -55,7 +55,7 @@ test:
 <%- if options.skip_solid? -%>
 production:
   <<: *default
-<% unless options.skip_kamal? -%>
+<% if kamal_accessories_config_yaml -%>
   host: <%= app_name %>-db
 <% end -%>
   database: <%= app_name %>_production
@@ -65,7 +65,7 @@ production:
 production:
   primary: &primary_production
     <<: *default
-<% unless options.skip_kamal? -%>
+<% if kamal_accessories_config_yaml -%>
     host: <%= app_name %>-db
 <% end -%>
     database: <%= app_name %>_production

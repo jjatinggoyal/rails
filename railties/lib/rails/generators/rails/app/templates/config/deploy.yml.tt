@@ -35,7 +35,7 @@ registry:
 env:
   secret:
     - RAILS_MASTER_KEY
-<% if options[:database] != "sqlite3" -%>
+<% if kamal_accessories_config_yaml -%>
     - <%= app_name.upcase %>_DATABASE_PASSWORD
 <% end -%>
 <% if skip_solid? -%>
@@ -107,44 +107,8 @@ builder:
 #   user: app
 
 # Use accessory services (secrets come from .kamal/secrets).
-<% if options[:database] == "postgresql" -%>
-accessories:
- db:
-   image: postgres:15
-   roles:
-     - web
-   # Change to 5432 to expose port to the world instead of just local network.
-   port: "127.0.0.1:5432:5432"
-   env:
-     clear:
-       POSTGRES_USER: <%= app_name %>
-     secret:
-       - POSTGRES_PASSWORD
-   directories:
-     - data:/var/lib/postgresql/data
-<% elsif options[:database] != "sqlite3" -%>
-accessories:
- db:
-<% if options[:database].in?(%w[mysql trilogy]) -%>
-   image: mysql:8.0
-<% else -%>
-   image: mariadb:10.5
-<% end -%>
-   roles:
-     - web
-   # Change to 3306 to expose port to the world instead of just local network.
-   port: "127.0.0.1:3306:3306"
-   env:
-     clear:
-       MYSQL_ROOT_HOST: '%'
-       MYSQL_USER: <%= app_name %>
-     secret:
-       - MYSQL_ROOT_PASSWORD
-       - MYSQL_PASSWORD
-   directories:
-     - data:/var/lib/mysql
-   files:
-     - db/init.sql:/docker-entrypoint-initdb.d/init.sql
+<% if kamal_accessories_config_yaml -%>
+<%= kamal_accessories_config_yaml %>
 <% else -%>
 # accessories:
 <% end -%>
