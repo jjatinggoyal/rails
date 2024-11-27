@@ -637,6 +637,14 @@ module Rails
         end
       end
 
+      def kamal_accessories_config_yaml
+        return if skip_kamal?
+
+        @kamal_accessories_config_yaml ||= if (db_config = database.kamal_db_config(app_name))
+          { "accessories" => db_config }.to_yaml(indentation: 2)[4..-2]
+        end
+      end
+
       def bundle_command(command, env = {})
         say_status :run, "bundle #{command}"
 
